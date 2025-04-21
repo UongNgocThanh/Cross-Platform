@@ -1,20 +1,39 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect } from "react";
+import { OPENSANS_REGULAR } from "./utils/const";
 
-export default function App() {
+import { NavigationContainer } from "@react-navigation/native";
+import "react-native-gesture-handler";
+import AppNavigation from "./components/navigation/app.navigation";
+import { auth } from "./configs/FirebaseConfig";
+import TabNavigation from "./components/navigation/tab.navigation";
+
+SplashScreen.preventAutoHideAsync();
+
+const App = () => {
+  const [loaded, error] = useFonts({
+    [OPENSANS_REGULAR]: require("./assets/fonts/OpenSans-Regular.ttf"),
+  });
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) {
+    return null;
+  }
+
+  const user = auth.currentUser;
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <AppNavigation />
+      {/* {user ? <TabNavigation /> : <AppNavigation />} */}
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
