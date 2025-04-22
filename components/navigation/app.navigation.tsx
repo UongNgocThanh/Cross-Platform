@@ -12,6 +12,7 @@ import ReviewTripScreen from "../create-trip/review-trip";
 import GenerateTripScreen from "../create-trip/generate-trip";
 import TripDetailScreen from "../trip-details/trip-details";
 import MapScreen from "../trip-details/map";
+import ChatbotScreen from "../tabs/chatbox";
 
 const AppNavigation = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();

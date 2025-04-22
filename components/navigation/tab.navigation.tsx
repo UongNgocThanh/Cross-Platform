@@ -7,6 +7,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import SettingScreen from "../tabs/settings";
 import { RouteProp, useRoute } from "@react-navigation/native";
+import ChatbotScreen from "../tabs/chatbox";
 
 type HomeRouteProp = RouteProp<RootStackParamList, 'home'>;
 
@@ -54,6 +55,15 @@ const TabNavigation = () => {
         initialParams={{ fullName }}
         options={{
           tabBarLabel: "Settings",
+          tabBarIcon: ({color}) => <AntDesign name="setting" size={24} color={color} />
+        }}
+      />
+      <Tab.Screen
+        name="chatbot"
+        component={ChatbotScreen}
+        initialParams={{ fullName }}
+        options={{
+          tabBarLabel: "Chatbot",
           tabBarIcon: ({color}) => <AntDesign name="setting" size={24} color={color} />
         }}
       />
