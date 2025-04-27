@@ -85,18 +85,20 @@ const MapScreen = () => {
 
   const GetGoogleGeoCoordinates = async (placeName: string) => {
     const result = await GetGeoCoordinates(placeName);
-    setAllCoordinates((prevCoordinates) => [
-      ...prevCoordinates,
-      {
-        name: placeName,
-        coordinates: {
-          latitude: result?.lat,
-          longitude: result?.lng,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
+    if (result) {
+      setAllCoordinates((prevCoordinates) => [
+        ...prevCoordinates,
+        {
+          name: placeName,
+          coordinates: {
+            latitude: result?.lat,
+            longitude: result?.lng,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          },
         },
-      },
-    ]);
+      ]);
+    }
   };
 
   function getAllCoordinates() {
