@@ -103,15 +103,15 @@ export default function PlaceCard({
           <View style={styles.control}>
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#333" }]}
-              onPress={() =>
-                navigation.navigate("map", {
-                  placeName: activity.placeName,
-                  latitude: coordinates.lat,
-                  longitude: coordinates.lng,
-                  latitudeDelta: 0.005,
-                  longitudeDelta: 0.005,
-                })
-              }
+              // onPress={() =>
+              //   navigation.navigate("map", {
+              //     placeName: activity.placeName,
+              //     latitude: coordinates.lat,
+              //     longitude: coordinates.lng,
+              //     latitudeDelta: 0.005,
+              //     longitudeDelta: 0.005,
+              //   })
+              // }
             >
               <Ionicons name="navigate" size={24} color="#fff" />
             </TouchableOpacity>

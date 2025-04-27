@@ -108,7 +108,7 @@ const SettingScreen = () => {
         </View>
         <View style={{ marginBottom: 20 }}>
           <Text style={styles.heading}>Account</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("profile")}>
             <View
               style={{
                 flexDirection: "row",

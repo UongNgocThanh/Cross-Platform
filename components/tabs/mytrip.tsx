@@ -1,20 +1,35 @@
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Image,
+  Platform,
   RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { auth, db } from "../../configs/FirebaseConfig";
 import moment from "moment";
 
@@ -96,7 +111,7 @@ const styles = StyleSheet.create({
 const MyTripScreen = () => {
   const navigation: any = useNavigation();
   // const route: RouteProp<RootStackParamList, "home"> = useRoute();
-  const route = useRoute<RouteProp<TabParamList, 'mytrip'>>();
+  const route = useRoute<RouteProp<TabParamList, "mytrip">>();
   const { fullName } = route.params ?? {};
 
   const [userTrips, setUserTrips] = useState<any[]>([]);
@@ -123,6 +138,42 @@ const MyTripScreen = () => {
     });
     // const latestTrip = JSON.parse(userTrips[0].tripData);
     setLoading(false);
+  };
+
+  function notifyMessage(msg: string) {
+    if (Platform.OS === "android") {
+      ToastAndroid.show(msg, ToastAndroid.SHORT);
+    } else {
+      Alert.alert(msg);
+    }
+  }
+
+  const handleDeleteTrip = (docID: string) => {
+    Alert.alert(
+      "Confirm delete",
+      "Are you sure you want to delete this trip? This process cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteDoc(doc(db, "UserTrips", docID));
+              setUserTrips((prev) =>
+                prev.filter((trip) => trip.docID !== docID)
+              );
+              notifyMessage("This trip has been deleted.");
+            } catch (error) {
+              notifyMessage("Delete failed.");
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -255,6 +306,7 @@ const MyTripScreen = () => {
                   onPress={() =>
                     navigation.navigate("trip-details", JSON.stringify(item))
                   }
+                  onLongPress={() => handleDeleteTrip(item.docID)}
                 >
                   <View
                     style={{

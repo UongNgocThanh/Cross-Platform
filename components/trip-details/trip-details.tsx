@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import {
@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import HotelCard from "./HotelCard";
 import PlaceCard from "./PlaceCard";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +42,11 @@ const styles = StyleSheet.create({
   button_text: {
     color: "#333",
   },
+  right_icon: {
+    padding: 3,
+    backgroundColor: "#fff",
+    borderRadius: 30,
+  },
 });
 
 const TripDetailScreen = () => {
@@ -48,9 +54,22 @@ const TripDetailScreen = () => {
   const trip: any = route.params;
   const [tripDetails, setTripDetails] = useState<any>();
 
+  const navigation: NavigationProp<RootStackParamList> = useNavigation();
+
   useEffect(() => {
     setTripDetails(JSON.parse(trip));
     // console.log(JSON.parse(tripDetails.tripData).photoRef);
+    navigation.setOptions({
+      headerRight: () => (
+        <MaterialIcons
+          style={styles.right_icon}
+          name="explore"
+          size={24}
+          color="black"
+          onPress={() => navigation.navigate("map", trip)}
+        />
+      ),
+    });
   }, []);
 
   return (
@@ -83,13 +102,13 @@ const TripDetailScreen = () => {
           </Text>
           <View style={{ flexDirection: "row", gap: 5, marginTop: 5 }}>
             <Text style={{ color: "#333", fontWeight: 300 }}>
-              {moment(JSON.parse(tripDetails.tripData).startDate).format(
+              {moment(JSON.parse(tripDetails.tripData).time.startDate).format(
                 "DD MMM yyyy"
               )}
             </Text>
             <Text style={{ color: "#333", fontWeight: 300 }}>
               -{" "}
-              {moment(JSON.parse(tripDetails.tripData).endDate).format(
+              {moment(JSON.parse(tripDetails.tripData).time.endDate).format(
                 "DD MMM yyyy"
               )}
             </Text>
