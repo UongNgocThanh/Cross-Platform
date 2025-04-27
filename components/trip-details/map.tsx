@@ -147,7 +147,7 @@ const MapScreen = () => {
             zoomEnabled={true}
             followsUserLocation
             showsMyLocationButton
-            mapType="standard"
+            mapType="satellite"
             showsUserLocation
             ref={mapRef}
           >

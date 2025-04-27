@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Colors } from '../../constants/Colors';
 
 // URL ngrok và webhook path
-const N8N_URL = 'https://1c27-171-251-16-192.ngrok-free.app/webhook/chatbot-demo3';
+const N8N_URL = 'https://ce57-2405-4802-2193-6780-4581-2e04-d695-88a6.ngrok-free.app/webhook/chatbot-demo3';
 
 export default function ChatbotScreen() {
   const [message, setMessage] = useState('');
